@@ -19,21 +19,27 @@ export default function FurnitureMesh({ furniture }: { furniture: Furniture }) {
   const isSelected =
     selection?.kind === "furniture" && selection.id === furniture.id;
 
-  if (furniture.hidden) return null;
-
   const cx = furniture.x;
   const cy = furniture.y;
   const cz = furniture.z;
 
   useEffect(() => {
-    if (!groupRef.current) return;
+    if (!groupRef.current || furniture.hidden) return;
     groupRef.current.position.set(cx, cy, cz);
     groupRef.current.rotation.set(
       furniture.rotationX,
       furniture.rotationY,
       furniture.rotationZ,
     );
-  }, [cx, cy, cz, furniture.rotationX, furniture.rotationY, furniture.rotationZ]);
+  }, [
+    cx,
+    cy,
+    cz,
+    furniture.rotationX,
+    furniture.rotationY,
+    furniture.rotationZ,
+    furniture.hidden,
+  ]);
 
   const hasParts = furniture.parts && furniture.parts.length > 0;
   const onSelect = (e: { stopPropagation: () => void }) => {
@@ -62,6 +68,8 @@ export default function FurnitureMesh({ furniture }: { furniture: Furniture }) {
     furniture.height,
     furniture.depth,
   ]);
+
+  if (furniture.hidden) return null;
 
   return (
     <>
