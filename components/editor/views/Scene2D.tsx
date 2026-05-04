@@ -231,16 +231,18 @@ export default function Scene2D() {
         )}
 
         {/* Meubles */}
-        {scene.furniture.map((f) => (
-          <FurnitureRect
-            key={f.id}
-            f={f}
-            scale={view.scale}
-            worldToScreen={worldToScreen}
-            selected={selection?.kind === "furniture" && selection.id === f.id}
-            onMouseDown={(e) => onFurnitureMouseDown(e, f)}
-          />
-        ))}
+        {scene.furniture.map((f) =>
+          f.hidden ? null : (
+            <FurnitureRect
+              key={f.id}
+              f={f}
+              scale={view.scale}
+              worldToScreen={worldToScreen}
+              selected={selection?.kind === "furniture" && selection.id === f.id}
+              onMouseDown={(e) => onFurnitureMouseDown(e, f)}
+            />
+          ),
+        )}
       </svg>
 
       <Helper />

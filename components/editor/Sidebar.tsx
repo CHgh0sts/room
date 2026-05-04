@@ -317,13 +317,49 @@ function FurnitureItem({
   active: boolean;
   onClick: () => void;
 }) {
+  const updateFurniture = useEditor((s) => s.updateFurniture);
+  const hidden = !!furniture.hidden;
   return (
-    <Item
-      label={furniture.name}
-      active={active}
-      onClick={onClick}
-      swatch={furniture.color}
-    />
+    <div
+      className={`group flex items-center transition ${
+        active
+          ? "bg-bg-panel text-text border-l-2 border-accent"
+          : "hover:bg-bg-panel"
+      }`}
+    >
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          updateFurniture(furniture.id, { hidden: hidden ? false : true });
+        }}
+        title={hidden ? "Afficher dans la scène" : "Masquer dans la scène"}
+        aria-label={hidden ? "Afficher dans la scène" : "Masquer dans la scène"}
+        className={`px-2 py-1.5 ${active ? "" : "pl-3"} ${
+          hidden ? "text-text-dim" : "text-text-muted"
+        } hover:text-accent`}
+      >
+        {hidden ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
+      </button>
+      <button
+        type="button"
+        onClick={onClick}
+        className={`flex-1 flex items-center gap-2 pr-3 py-1.5 text-sm text-left min-w-0 ${
+          hidden
+            ? "text-text-dim italic line-through decoration-text-dim/40"
+            : active
+              ? "text-text"
+              : "text-text-muted"
+        }`}
+      >
+        <span
+          className="size-3 shrink-0 rounded-sm border border-border"
+          style={{ backgroundColor: furniture.color }}
+        />
+        <span className="truncate">{furniture.name}</span>
+        <ChevronRight className="size-3 text-text-dim shrink-0 ml-auto" />
+      </button>
+    </div>
   );
 }
 

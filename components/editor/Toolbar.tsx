@@ -82,10 +82,13 @@ export default function Toolbar() {
 
 function TransformModeToggle() {
   const selection = useEditor((s) => s.selection);
+  const scene = useEditor((s) => s.scene);
   const viewMode = useEditor((s) => s.viewMode);
   const transformMode = useEditor((s) => s.transformMode);
   const setTransformMode = useEditor((s) => s.setTransformMode);
   if (viewMode !== "3d" || selection?.kind !== "furniture") return null;
+  const fu = scene.furniture.find((x) => x.id === selection.id);
+  if (fu?.hidden) return null;
   return (
     <div className="flex items-center gap-1 panel rounded-md p-0.5">
       <button

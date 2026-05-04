@@ -19,6 +19,8 @@ export default function FurnitureMesh({ furniture }: { furniture: Furniture }) {
   const isSelected =
     selection?.kind === "furniture" && selection.id === furniture.id;
 
+  if (furniture.hidden) return null;
+
   const cx = furniture.x;
   const cy = furniture.y;
   const cz = furniture.z;

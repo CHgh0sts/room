@@ -115,6 +115,8 @@ export const furnitureSchema = z.object({
     .optional(),
   // Si défini, le meuble provient d'un preset du catalogue.
   presetId: z.string().min(1).optional(),
+  /** Masqué dans la vue 3D et le plan 2D (liste latérale : icône œil). */
+  hidden: z.boolean().optional(),
 });
 export type Furniture = z.infer<typeof furnitureSchema>;
 
